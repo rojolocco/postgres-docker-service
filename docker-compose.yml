@@ -3,7 +3,7 @@ services:
     image: postgres:17
     container_name: postgres_prod
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     shm_size: 256mb # Ajusta si necesitas mayor rendimiento en producción
