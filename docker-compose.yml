@@ -1,9 +1,9 @@
 services:
   postgres:
     image: postgres:17
-    container_name: postgres_prod
+    container_name: postgres
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     shm_size: 256mb # Ajusta si necesitas mayor rendimiento en producción
@@ -20,9 +20,9 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin_prod
+    container_name: pgadmin
     ports:
-      - "8081:80"
+      - "8080:80"
     env_file:
       - .env.prod
     networks:
