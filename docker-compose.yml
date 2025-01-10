@@ -6,7 +6,6 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    shm_size: 256mb # Ajusta si necesitas mayor rendimiento en producción
     env_file:
       - .env.prod
     restart: always
@@ -21,22 +20,8 @@ services:
           memory: 512M     # Garantizar 512 MB mínimos
           cpus: "0.5"      # Garantizar 0.5 CPUs mínimos" 
 
-  pgadmin:
-    image: dpage/pgadmin4:8.14
-    container_name: pgadmin
-    ports:
-      - "8081:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    env_file:
-      - .env.prod
-    networks:
-      - caddy_network
-
 volumes:
   postgres_data:
-    driver: local
-  pgadmin_data:
     driver: local
 
 networks:
