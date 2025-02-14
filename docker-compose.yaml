@@ -1,7 +1,7 @@
 services:
   postgres:
-    image: postgres
-    container_name: postgres
+    image: pgvector/pgvector:pg16
+    container_name: pgvector
     ports:
       - "5432:5432"
     volumes:
