@@ -6,7 +6,7 @@ Este directorio contiene la configuración necesaria para levantar un servicio d
 
 ## **Estructura de Archivos**
 
-```
+```plaintext
 postgres/
 ├── .env.dev                     # Variables de entorno para desarrollo
 ├── .env.prod                    # Variables de entorno para producción
