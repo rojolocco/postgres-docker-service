@@ -3,7 +3,7 @@
 .env.*
 
 # Ignorar archivos de configuración de Docker
-docker-compose.yml
+docker-compose.yaml
 
 # Ignorar archivos de Git
 .git
