@@ -1,147 +1,74 @@
-# Servicio PostgreSQL
+# PostgreSQL Docker Service
 
-Este directorio contiene la configuración necesaria para levantar un servicio de PostgreSQL utilizando Docker Compose. Está preparado para entornos de desarrollo y producción, con persistencia de datos y seguridad básica.
+This project provides a Docker setup for running PostgreSQL and pgAdmin, a web-based interface for managing PostgreSQL databases.
 
----
+## Description
 
-## **Estructura de Archivos**
+This repository contains Docker configurations to easily deploy PostgreSQL and pgAdmin. PostgreSQL is a powerful, open-source object-relational database system. pgAdmin allows you to manage your PostgreSQL databases through a user-friendly web interface.
 
-```plaintext
-postgres/
-├── .env.dev                     # Variables de entorno para desarrollo
-├── .env.prod                    # Variables de entorno para producción
-├── docker-compose.dev.yml       # Docker Compose para desarrollo
-├── docker-compose.yml           # Docker Compose para producción
-├── data/                        # Carpeta para persistencia de datos (creada automáticamente)
-```
+## Services
 
----
+- **PostgreSQL**: The main service that runs the PostgreSQL database.
+  - **Container Name**: postgres
+  - **Image**: postgres
+  - **Ports**: Exposed on the default PostgreSQL port (5432)
+  - **Volumes**: Data is persisted in `postgres_data` volume.
+  - **Health Check**: Ensures PostgreSQL is running by checking the readiness of the server.
 
-## **Requisitos Previos**
+- **pgAdmin**: A web interface for managing PostgreSQL.
+  - **Container Name**: pgadmin
+  - **Image**: dpage/pgadmin4:latest
+  - **Ports**: Accessible on port 8082
+  - **Environment Variables**: Loaded from `.env`
 
-1. Docker y Docker Compose instalados.
-2. Una red externa llamada `caddy_network` creada previamente:
+## Installation
+
+1. Clone the repository:
 
    ```bash
-   docker network create caddy_network
+   git clone https://github.com/yourusername/your-repo.git
    ```
 
----
+2. Navigate to the project directory:
 
-## **Configuración de Variables de Entorno**
+   ```bash
+   cd your-repo
+   ```
 
-Define las credenciales y ajustes del servicio en los archivos `.env.dev` y `.env.prod`.
+3. Start the services using Docker Compose:
 
-### `.env.dev` (Desarrollo)
+   ```bash
+   docker-compose up -d
+   ```
 
-```plaintext
-POSTGRES_USER=dev_user
-POSTGRES_PASSWORD=dev_password
-POSTGRES_DB=dev_db
-```
+## Usage
 
-### `.env.prod` (Producción)
+- Access pgAdmin at [http://localhost:8082](http://localhost:8082) to manage your PostgreSQL databases.
+- Use any PostgreSQL client to connect to the PostgreSQL service at `localhost:5432`.
 
-```plaintext
-POSTGRES_USER=prod_user
-POSTGRES_PASSWORD=prod_password
-POSTGRES_DB=prod_db
-```
+## Contributing
 
-> **Nota:** Asegúrate de que estos archivos estén protegidos y excluidos del control de versiones mediante `.gitignore`.
+1. Fork the repository.
+2. Create a new branch:
 
----
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
 
-## **Uso**
+3. Make your changes and commit them:
 
-### **Levantar el servicio en desarrollo**
+   ```bash
+   git commit -m "Add your message"
+   ```
 
-```bash
-docker-compose -f docker-compose.dev.yml up -d
-```
+4. Push to the branch:
 
-### **Levantar el servicio en producción**
+   ```bash
+   git push origin feature/YourFeature
+   ```
 
-```bash
-docker-compose -f docker-compose.yml up -d
-```
+5. Open a pull request.
 
-### **Detener el servicio**
+## License
 
-```bash
-docker-compose down
-```
-
-### **Verificar el estado de los contenedores**
-
-```bash
-docker ps
-```
-
----
-
-## **Conexión a PostgreSQL**
-
-Puedes conectarte al servicio desde herramientas externas o aplicaciones usando las siguientes credenciales:
-
-- **Host**: `localhost` (o el nombre del servicio, si estás en la red `caddy_network`).
-- **Puerto**: `5432`
-- **Usuario**: Definido en `.env.dev` o `.env.prod`.
-- **Contraseña**: Definida en `.env.dev` o `.env.prod`.
-- **Base de datos**: Definida en `.env.dev` o `.env.prod`.
-
----
-
-## **Persistencia de Datos**
-
-Los datos de PostgreSQL se almacenan en un volumen llamado `postgres_data`. Esto asegura que los datos no se pierdan al detener o reiniciar los contenedores.
-
-### **Ubicación del volumen:**
-
-El volumen es gestionado por Docker y no está directamente accesible desde el sistema de archivos.
-
-Para eliminar los datos almacenados:
-
-```bash
-docker volume rm postgres_postgres_data
-```
-
----
-
-## **Solución de Problemas**
-
-### Error: `password authentication failed for user`
-
-- Asegúrate de que las credenciales en los archivos `.env` coincidan con las utilizadas en tu aplicación.
-- Verifica si el usuario existe en la base de datos. Si no, créalo manualmente:
-
-  ```sql
-  CREATE ROLE <usuario> WITH LOGIN PASSWORD '<contraseña>';
-  CREATE DATABASE <base_de_datos> OWNER <usuario>;
-  ```
-
-### Error: `Role does not exist`
-
-- Elimina el volumen y reinicia el contenedor para aplicar las variables de entorno:
-
-  ```bash
-  docker-compose down
-  docker volume rm postgres_postgres_data
-  docker-compose up -d
-  ```
-
----
-
-## **Contribución**
-
-Si deseas mejorar este servicio o agregar nuevas funcionalidades, sigue estos pasos:
-
-1. Haz un fork de este repositorio.
-2. Realiza tus cambios en una rama nueva.
-3. Envía un pull request con tus mejoras.
-
----
-
-## **Licencia**
-
-Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
