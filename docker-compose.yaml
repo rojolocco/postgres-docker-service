@@ -30,8 +30,8 @@ services:
       - .env
     volumes:
       - pgadmin_data:/var/lib/pgadmin
-    ports:
-      - "8081:80"
+    # ports:
+    #   - "8081:80"
     networks:
       - caddy_network
     depends_on:
