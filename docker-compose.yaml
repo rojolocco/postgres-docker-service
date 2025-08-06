@@ -1,0 +1,19 @@
+services:
+  pgvector:
+    image: pgvector/pgvector:pg17
+    container_name: pgvector
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - traefik_network
+
+volumes:
+  pgvector_data:
+    driver: local
+
+networks:
+  traefik_network:
+    external: true
