@@ -8,12 +8,26 @@ services:
       - .env
     restart: always
     networks:
-      - traefik_network
+      - internal_network
+    deploy:
+      resources:
+        limits:
+          cpus: "1.2"
+          memory: 3G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-postgres}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
   pgvector_data:
     driver: local
 
 networks:
-  traefik_network:
+  internal_network:
     external: true
